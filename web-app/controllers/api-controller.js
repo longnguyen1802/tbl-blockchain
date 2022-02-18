@@ -14,7 +14,12 @@ async function getGenerateProof(req,res,next) {
 
         let mTreeProof = await encryption.generateCertificateProof(req.query.sharedAttributes, req.query.certUUID, req.session.email);
         let disclosedData = await certificates.findOne({"_id" : req.query.certUUID}).select(req.query.sharedAttributes.join(" ") + " -_id");
-
+        console.log(typeof req.query.sharedAttributes);
+        console.log(typeof req.query.certUUID);
+        console.log(typeof req.session.email);
+        console.log(req.query.sharedAttributes);
+        console.log(req.query.certUUID);
+        console.log(req.session.email);
         res.status(200).send({
             proof: mTreeProof,
             disclosedData: disclosedData,

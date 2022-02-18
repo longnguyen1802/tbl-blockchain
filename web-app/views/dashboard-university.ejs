@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
 </head>
 
 <body class="bg-light">
@@ -41,6 +42,8 @@
                     <div class="col-sm-4 orange"> <strong>Certificate UUID <br></strong> <%= certData[i].certUUID %></div>
                     <div class="col-sm-8 orange"><strong>Certificate Hash<br></strong> <%= certData[i].hash %> </div>
                 </div>
+                
+                <button onclick="getfile('<%= Uint8Array.from(datas[i]) %>')" >Click here to download</button>
             </div>
         </div>
     <% } %>
@@ -67,7 +70,20 @@
     <!--    </div>-->
 
 </div>
+<script>
+    function getfile(data) {
+        //download(data, "formf.pdf", "application/pdf");
+        // let printdata = document.getElementById("getdata").value;
 
+        const array = data.split(",");
+        let a = [];
+        array.forEach(element => {
+            a.push(parseInt(element, 10));
+        });
+        var data = Uint8Array.from(a);
+        download(data, "formtest.pdf", "application/pdf");
+    }
+</script>
 
 </body>
 

@@ -1,10 +1,12 @@
 
 //initialize env variables, database and loaders.
 const config = require('./loaders/config');
-
+const {
+    PDFDocument
+} = require("pdf-lib");
 //load database
 const mongoose = require('./database/mongoose');
-
+const fileUpload = require("express-fileupload");
 //load fabric environemtn
 require('./loaders/fabric-loader');
 
@@ -47,7 +49,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
-
+app.use(fileUpload());
 app.use(sessionMiddleware);
 
 //routers
@@ -55,6 +57,16 @@ app.use('/', indexRouter);
 app.use('/api', apiRouter);
 app.use('/university', universityRouter);
 app.use('/student', studentRouter);
+// app.post('/verify',async(req, res) =>{
+//   if (!req.files && !req.files.pdfFile) {
+//     res.status(400);
+//     res.end();
+//   }
+//   var formPdfBytes = await req.files.pdfFile.data;
+//   console.log("Hello");
+//   const pdfDoc = await PDFDocument.load(formPdfBytes)
+//   res.send("Hello");
+// })
 app.use('/verify', verifyRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

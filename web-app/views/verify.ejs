@@ -22,27 +22,41 @@
                 <h4 class="card-title mt-2">Verify Certificate Authenticity</h4>
             </header>
             <article class="card-body">
+                <input type="file" id="inpFile">
+                <button type="button" id="btnUpload">Verify</button>
+                <br>
+                <br>
+            <p id="verifyresult"></p>
 
-                <form action="/verify" method="POST" >
-                    <div class="form-row">
-                        <div class="col form-group">
-                            <label for="proofTextArea">Enter Proof Object Here</label>
-                            <textarea name="proofObject" class="form-control" id="proofTextArea" rows="3"></textarea>
-                        </div>
-                    </div> <!-- form-row end.// -->
+                
 
-                    <div class="form-group">
-
-                        <button type="submit" class="btn btn-primary btn-block "> Verify  </button>
-                    </div> <!-- form-group// -->
-                </form>
             </article> <!-- card-body end .// -->
 
         </div> <!-- card.// -->
     </div> <!-- col.//-->
 
 </div> <!-- row.//-->
+<!-- start here-->
 
+<script>
+    const inpFile = document.getElementById("inpFile");
+    const btnUpload = document.getElementById("btnUpload");
+    let result = document.getElementById("verifyresult");
+
+    btnUpload.addEventListener("click", async() => {
+        const formData = new FormData();
+        formData.append("pdfFile", inpFile.files[0]);
+        console.log(formData);
+        fetch("/verify", {
+            method: "post",
+            body: formData,
+        }).then(async response => {
+            result.innerHTML = await response.text();
+        });
+    });
+</script>
+
+<!--end here-->
 
 </body>
 
